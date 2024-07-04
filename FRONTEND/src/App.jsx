@@ -1,27 +1,30 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext.jsx'; // Asegúrate de actualizar la ruta según la estructura de tu proyecto
+
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
 import Cartelera from './pages/Cartelera.jsx';
-import Login from './pages/Login.jsx';
+import Comprar from './pages/Comprar.jsx';
 import Register from './pages/Register.jsx';
+import Login from './pages/Login.jsx';
+
 
 function App() {
   return (
-    <BrowserRouter>
-      <div>
+    <AuthProvider>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/cartelera" element={<Cartelera />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/comprar" element={<Comprar />} />
         </Routes>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
 export default App;
-
-

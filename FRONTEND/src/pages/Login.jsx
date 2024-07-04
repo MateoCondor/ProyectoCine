@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import axios from './axios';
+import { useAuth } from '../context/AuthContext'; // Asegúrate de actualizar la ruta según la estructura de tu proyecto
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState(''); // Estado para los mensajes
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -14,9 +18,18 @@ const Login = () => {
         email,
         password,
       });
-      console.log(res.data);
+      setMessage('Ingreso exitoso');
+      login();
+      setTimeout(() => {
+        navigate('/'); // Redirige al usuario a la página de inicio o cualquier otra página después de iniciar sesión
+      }, 2000); // Espera 2 segundos antes de redirigir
     } catch (err) {
       console.error(err);
+      if (err.response && err.response.status === 401) {
+        setMessage('Correo o contraseña incorrectos');
+      } else {
+        setMessage('Ocurrió un error, por favor intente nuevamente');
+      }
     }
   };
 
@@ -29,6 +42,11 @@ const Login = () => {
             <div className="card">
               <div className="card-body">
                 <h2 className="card-title text-center mb-4">Iniciar sesión</h2>
+                {message && (
+                  <div className={`alert ${message === 'Ingreso exitoso' ? 'alert-success' : 'alert-danger'}`} role="alert">
+                    {message}
+                  </div>
+                )}
                 <form onSubmit={handleLogin}>
                   <div className="mb-3">
                     <label htmlFor="email" className="form-label">Correo electrónico</label>

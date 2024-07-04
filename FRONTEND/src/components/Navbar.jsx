@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.jsx'; // Asegúrate de actualizar la ruta según la estructura de tu proyecto
 
-// Navbar sin el logo
 const Navbar = () => {
+  const { isAuthenticated, logout } = useAuth();
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div className="container-fluid">
@@ -23,7 +25,14 @@ const Navbar = () => {
             </li>
           </ul>
           <div className="d-flex">
-            <Link to="/login" className="btn btn-outline-light">Iniciar Sesión</Link>
+            {isAuthenticated ? (
+              <>
+                <Link to="/comprar" className="btn btn-outline-light me-2">Comprar</Link>
+                <button className="btn btn-outline-light" onClick={logout}>Cerrar Sesión</button>
+              </>
+            ) : (
+              <Link to="/login" className="btn btn-outline-light">Iniciar Sesión</Link>
+            )}
           </div>
         </div>
       </div>

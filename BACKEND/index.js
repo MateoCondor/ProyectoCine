@@ -24,9 +24,9 @@ connection.once('open', () => {
 // Definir rutas (agrega tus rutas aquí)
 
 const usersRouter = require('./routes/users');
-
+const moviesRouter = require('./routes/movies');
 app.use('/api/users', usersRouter);
-
+app.use('/api/movies', moviesRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
