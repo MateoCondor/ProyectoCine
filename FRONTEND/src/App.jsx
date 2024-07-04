@@ -20,7 +20,7 @@ function App() {
           <Route path="/cartelera" element={<Cartelera />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/comprar" element={<Comprar />} />
+          <Route path="/comprar/:id" element={<Comprar />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

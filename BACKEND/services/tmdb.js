@@ -10,7 +10,7 @@ const tmdb = axios.create({
     'Authorization': `Bearer ${API_KEY}`
   },
   params: {
-    language: 'en-US' // Cambia el idioma según tus necesidades
+    language: 'es-ES' // Cambia el idioma según tus necesidades
   }
 });
 
