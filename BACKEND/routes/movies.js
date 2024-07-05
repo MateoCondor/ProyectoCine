@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getPopularMovies, getMovieById, getLatestMovies } = require('../services/tmdb');
+const { getPopularMovies, getMovieById, getTopRatedMovies } = require('../services/tmdb');
 
 // Obtener películas populares
 router.get('/popular', async (req, res) => {
@@ -23,9 +23,9 @@ router.get('/:id', async (req, res) => {
 });
 
 // Obtener películas de estreno
-router.get('/latest', async (req, res) => {
+router.get('/top_rated', async (req, res) => {
   try {
-    const movies = await getLatestMovies();
+    const movies = await getTopRatedtMovies();
     res.json(movies);
   } catch (err) {
     res.status(500).json({ message: err.message });

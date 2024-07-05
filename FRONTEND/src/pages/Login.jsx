@@ -22,7 +22,7 @@ const Login = () => {
       login();
       setTimeout(() => {
         navigate('/'); // Redirige al usuario a la página de inicio o cualquier otra página después de iniciar sesión
-      }, 2000); // Espera 2 segundos antes de redirigir
+      }, 1000); // Espera 2 segundos antes de redirigir
     } catch (err) {
       console.error(err);
       if (err.response && err.response.status === 401) {
@@ -39,7 +39,7 @@ const Login = () => {
       <div className="container" style={{ marginTop: '70px' }}>
         <div className="row justify-content-center">
           <div className="col-md-6">
-            <div className="card">
+            <div className="card border-dark">
               <div className="card-body">
                 <h2 className="card-title text-center mb-4">Iniciar sesión</h2>
                 {message && (
@@ -70,7 +70,9 @@ const Login = () => {
                       placeholder="Ingrese su contraseña"
                     />
                   </div>
-                  <button type="submit" className="btn btn-primary w-100">Iniciar sesión</button>
+                  <div className="text-center">
+                    <button type="submit" className="btn btn-warning w-50">Iniciar sesión</button>
+                  </div>
                 </form>
                 <div className="text-center mt-3">
                   <p>¿No tienes una cuenta? <Link to="/register">Registrarse</Link></p>

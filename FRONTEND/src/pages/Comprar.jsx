@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate, Navigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 const SeatSelection = ({ quantity, onSeatsSelected }) => {
@@ -26,27 +26,36 @@ const SeatSelection = ({ quantity, onSeatsSelected }) => {
 
     return (
         <div className="card mt-4">
-            <div className="card-body">
-                <h2 className="card-title">Selecciona tus Asientos</h2>
+            <div className="card-body p-4">
+                <h2 className="card-title">Selecciona tus Asientos</h2><br />
                 <div className="row row-cols-5">
                     {seats.map(seat => (
                         <div
                             key={seat}
-                            className={`col seat ${selectedSeats.includes(seat) ? 'selected' : ''}`}
+                            className="col seat"
                             onClick={() => handleSeatClick(seat)}
-                            style={{ cursor: 'pointer', border: '1px solid #ccc', padding: '10px', marginBottom: '10px', textAlign: 'center' }}
+                            style={{
+                                cursor: 'pointer',
+                                border: '1px solid #ccc',
+                                padding: '10px',
+                                marginBottom: '10px',
+                                textAlign: 'center',
+                                backgroundColor: selectedSeats.includes(seat) ? '#ffca2c' : 'transparent'
+                            }}
                         >
                             {seat}
                         </div>
                     ))}
                 </div>
-                <button
-                    className="btn btn-primary mt-3"
-                    onClick={handleConfirmSelection}
-                    disabled={selectedSeats.length !== quantity}
-                >
-                    Confirmar Selección
-                </button>
+                <div className="text-center">
+                    <button
+                        className="btn btn-warning mt-3"
+                        onClick={handleConfirmSelection}
+                        disabled={selectedSeats.length !== quantity}
+                    >
+                        Confirmar Selección
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -58,6 +67,7 @@ const Comprar = () => {
     const [quantity, setQuantity] = useState(1);
     const [showSeatSelection, setShowSeatSelection] = useState(false);
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMovie = async () => {
@@ -73,7 +83,8 @@ const Comprar = () => {
     }, [id]);
 
     const handleQuantityChange = (event) => {
-        setQuantity(event.target.value);
+        const value = parseInt(event.target.value, 10);
+        setQuantity(value > 0 ? value : 1);
     };
 
     const handlePurchase = () => {
@@ -84,6 +95,14 @@ const Comprar = () => {
         setSelectedSeats(seats);
         // Aquí puedes manejar la lógica para continuar con la compra con los asientos seleccionados
         console.log(`Asientos seleccionados: ${seats}`);
+        navigate('/pagar');
+
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        return date.toLocaleDateString('es-ES', options);
     };
 
     return (
@@ -100,11 +119,12 @@ const Comprar = () => {
                                 <div className="card-body">
                                     <h1 className="card-title">{movie.title}</h1>
                                     <p className="card-text">{movie.overview}</p>
-                                    <p className="card-text"><small className="text-muted">Fecha de Estreno: {movie.release_date}</small></p>
+                                    <p className="card-text"><small className="text-muted">Estreno: {formatDate(movie.release_date)}</small></p>
                                     <p className="card-text"><small className="text-muted">Popularidad: {movie.popularity}</small></p>
                                     <p className="card-text"><small className="text-muted">Promedio de Votos: {movie.vote_average}</small></p>
-                                    
-                                    <div className="form-group">
+                                    <br />
+                                    <p>El precio por boleto es de 4.75$</p>
+                                    <div className="form-group w-25">
                                         <label htmlFor="quantity">Cantidad de Boletos:</label>
                                         <input
                                             type="number"
@@ -115,8 +135,10 @@ const Comprar = () => {
                                             min="1"
                                         />
                                     </div>
+                                    <br />
+                                    <p>Total: {4.75*quantity} $</p>
                                     <button
-                                        className="btn btn-primary mt-3"
+                                        className="btn btn-warning mt-3"
                                         onClick={handlePurchase}
                                     >
                                         Comprar

@@ -29,7 +29,7 @@ const Register = () => {
       <div className="container" style={{ marginTop: '70px' }}>
         <div className="row justify-content-center">
           <div className="col-md-6">
-            <div className="card">
+            <div className="card border-dark">
               <div className="card-body">
                 <h2 className="card-title text-center mb-4">Registro</h2>
                 {message && <div className="alert alert-info">{message}</div>}
@@ -67,7 +67,9 @@ const Register = () => {
                       placeholder="Ingrese su contraseña"
                     />
                   </div>
-                  <button type="submit" className="btn btn-primary w-100">Registrarse</button>
+                  <div className="text-center">
+                  <button type="submit" className="btn btn-warning w-50">Registrarse</button>
+                  </div>
                 </form>
                 <div className="text-center mt-3">
                   <p>¿Ya tienes una cuenta? <Link to="/login">Iniciar sesión</Link></p>

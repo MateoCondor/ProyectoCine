@@ -34,9 +34,9 @@ const getMovieById = async (id) => {
   }
 };
 
-const getLatestMovies = async () => {
+const getTopRatedMovies = async () => {
   try {
-    const response = await tmdb.get('/movie/now_playing');
+    const response = await tmdb.get('/movie/top_rated');
     return response.data.results;
   } catch (error) {
     console.error('Error fetching latest movies:', error);
@@ -47,5 +47,5 @@ const getLatestMovies = async () => {
 module.exports = {
   getPopularMovies,
   getMovieById,
-  getLatestMovies,
+  getTopRatedMovies,
 };

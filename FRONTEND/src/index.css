@@ -19,6 +19,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+  
 }
 
 /* Estilos para el Navbar */
@@ -42,10 +43,19 @@ body {
 .navbar-nav .nav-link {
   color: #fff;
   font-size: 1rem;
+  border-radius: 6px;
 }
 
 .navbar-nav .nav-link:hover {
   text-decoration: none;
+  color: rgb(255, 202, 44);
+}
+
+.navbarhover:hover {
+  text-decoration: none;
+  
+  background-color: rgb(49, 54, 59);
+  border-radius: 5px;
 }
 
 /* Estilos para botones */

@@ -8,6 +8,7 @@ import Cartelera from './pages/Cartelera.jsx';
 import Comprar from './pages/Comprar.jsx';
 import Register from './pages/Register.jsx';
 import Login from './pages/Login.jsx';
+import Pagar from './pages/Pagar.jsx';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/comprar/:id" element={<Comprar />} />
+          <Route path="/pagar" element={<Pagar />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
