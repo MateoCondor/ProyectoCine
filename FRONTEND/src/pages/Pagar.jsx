@@ -1,11 +1,16 @@
+// Pagar.js
+
 import React, { useState } from 'react';
-import { useLocation,useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Modal, Button, Spinner } from 'react-bootstrap';
+import axios from 'axios';
+import { useAuth } from '../context/AuthContext'; // Importa el contexto de autenticación
 
 const Pagar = () => {
     const location = useLocation();
-    const { quantity, selectedSeats, total } = location.state || {};
+    const { userId, quantity, selectedSeats, total, movie, time } = location.state || {};
+    const { username } = useAuth(); // Obtén el nombre de usuario del contexto de autenticación
     const [name, setName] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [expiryDate, setExpiryDate] = useState('');
@@ -13,40 +18,54 @@ const Pagar = () => {
     const [billingAddress, setBillingAddress] = useState('');
     const [city, setCity] = useState('');
     const [postalCode, setPostalCode] = useState('');
+    const [savePaymentInfo, setSavePaymentInfo] = useState(false);
 
     const [showProcessing, setShowProcessing] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setShowProcessing(true);
 
-        // Simula el tiempo de procesamiento
-        setTimeout(() => {
+        try {
+            const response = await axios.post('http://localhost:5000/api/purchases/comprar', {
+                userId: username,
+                movie,
+                quantity,
+                selectedSeats,
+                total,
+                time,
+                savePaymentInfo,
+                paymentInfo: {
+                    name,
+                    cardNumber,
+                    expiryDate,
+                    cvv,
+                    billingAddress,
+                    city,
+                    postalCode
+                }
+            });
+
             setShowProcessing(false);
-            setShowSuccess(true);  
-        }, 2500);
+            setShowSuccess(true);
 
-        // Aquí puedes manejar la lógica para procesar el pago
-        console.log('Nombre:', name);
-        console.log('Número de tarjeta:', cardNumber);
-        console.log('Fecha de expiración:', expiryDate);
-        console.log('CVV:', cvv);
-        console.log('Dirección de facturación:', billingAddress);
-        console.log('Ciudad:', city);
-        console.log('Código postal:', postalCode);
-        // Resetear el formulario
-        setName('');
-        setCardNumber('');
-        setExpiryDate('');
-        setCvv('');
-        setBillingAddress('');
-        setCity('');
-        setPostalCode('');
+            // Resetear el formulario
+            setName('');
+            setCardNumber('');
+            setExpiryDate('');
+            setCvv('');
+            setBillingAddress('');
+            setCity('');
+            setPostalCode('');
 
-       
+            console.log(response.data.message);
+        } catch (error) {
+            console.error('Error al procesar el pago:', error);
+            setShowProcessing(false);
+        }
     };
 
     return (
@@ -57,9 +76,10 @@ const Pagar = () => {
                 <div className="card mt-4 w-50">
                     <div className="card-body">
                         <h3 className="card-title">Detalles de la Compra</h3>
-                        <p className="card-text"><b>Película: </b>{location.state.movie}</p>
+                        <p className="card-text"><b>Película: </b>{movie}</p>
+                        <p className="card-text"><b>Hora de la función: </b>{time}</p>
                         <p className="card-text"><b>Cantidad de boletos: </b>{quantity}</p>
-                        <p className="card-text"><b>Asientos seleccionados: </b>{selectedSeats && selectedSeats.join(', ')}</p>
+                        <p className="card-text"><b>Número de asientos seleccionados: </b>{selectedSeats && selectedSeats.join(', ')}</p>
                         <p className="card-text"><b>Total a pagar: </b> ${total}</p>
                     </div>
                 </div>
@@ -149,6 +169,16 @@ const Pagar = () => {
                                     />
                                 </div>
                             </div>
+                            <div className="form-group form-check my-2">
+                                <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    id="savePaymentInfo"
+                                    checked={savePaymentInfo}
+                                    onChange={(e) => setSavePaymentInfo(e.target.checked)}
+                                />
+                                <label className="form-check-label" htmlFor="savePaymentInfo">Guardar información de pago</label>
+                            </div>
                             <div className="text-center">
                                 <button type="submit" className="btn btn-warning btn-block mt-3 w-50">Pagar</button>
                             </div>
@@ -184,3 +214,4 @@ const Pagar = () => {
 };
 
 export default Pagar;
+

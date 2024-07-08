@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.jsx'; // Asegúrate de actualizar la ruta según la estructura de tu proyecto
+import { UserProvider } from './context/UserContext.jsx'; // Asegúrate de actualizar la ruta según la estructura de tu proyecto
 
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
@@ -9,22 +10,27 @@ import Comprar from './pages/Comprar.jsx';
 import Register from './pages/Register.jsx';
 import Login from './pages/Login.jsx';
 import Pagar from './pages/Pagar.jsx';
-
+import Admin from './pages/Admin.jsx';
+import Users from './pages/Users.jsx';
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/cartelera" element={<Cartelera />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/comprar/:id" element={<Comprar />} />
-          <Route path="/pagar" element={<Pagar />} />
-        </Routes>
-      </BrowserRouter>
+      <UserProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/cartelera" element={<Cartelera />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/comprar/:id" element={<Comprar />} />
+            <Route path="/pagar" element={<Pagar />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/users" element={<Users />} />
+          </Routes>
+        </BrowserRouter>
+      </UserProvider>
     </AuthProvider>
   );
 }

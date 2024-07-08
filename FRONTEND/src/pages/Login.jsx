@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import axios from './axios';
-import { useAuth } from '../context/AuthContext'; // Asegúrate de actualizar la ruta según la estructura de tu proyecto
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState(''); // Estado para los mensajes
+  const [message, setMessage] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -19,10 +19,16 @@ const Login = () => {
         password,
       });
       setMessage('Ingreso exitoso');
-      login();
+      const userRole = res.data.user.role;
+      const userId = res.data.user._id;
+      login(userRole, userId);
       setTimeout(() => {
-        navigate('/'); // Redirige al usuario a la página de inicio o cualquier otra página después de iniciar sesión
-      }, 1000); // Espera 2 segundos antes de redirigir
+        if (userRole === 'admin') {
+          navigate('/admin'); // Redirige a la página de administrador
+        } else {
+          navigate('/'); // Redirige a la página de inicio para clientes
+        }
+      }, 1000);
     } catch (err) {
       console.error(err);
       if (err.response && err.response.status === 401) {

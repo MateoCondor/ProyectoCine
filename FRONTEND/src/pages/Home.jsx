@@ -26,9 +26,9 @@ const Home = () => {
                             <div className="card-body">
                                 <h5 className="card-title">Hora de apertura</h5>
                                 <p className="card-text">
-                                    Lunes - viernes: 10am - 11pm
+                                    Lunes - viernes: 8am - 12pm
                                     <br />
-                                    Sabado - domingo: 9am - 12am
+                                    Sabado - domingo: 8am - 12am
                                 </p>
                             </div>
                         </div>
