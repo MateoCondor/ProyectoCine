@@ -5,7 +5,7 @@ import axios from './axios';
 import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const { login } = useAuth();
@@ -15,7 +15,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post('/users/login', {
-        email,
+        emailOrUsername,
         password,
       });
       setMessage('Ingreso exitoso');
@@ -55,14 +55,14 @@ const Login = () => {
                 )}
                 <form onSubmit={handleLogin}>
                   <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Correo electrónico</label>
+                    <label htmlFor="emailOrUsername" className="form-label">Correo electrónico o Nombre de usuario</label>
                     <input
-                      type="email"
+                      type="text"
                       className="form-control"
-                      id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Ingrese su correo electrónico"
+                      id="emailOrUsername"
+                      value={emailOrUsername}
+                      onChange={(e) => setEmailOrUsername(e.target.value)}
+                      placeholder="Ingrese su correo electrónico o nombre de usuario"
                     />
                   </div>
                   <div className="mb-3">

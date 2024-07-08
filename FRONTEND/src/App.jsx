@@ -12,6 +12,7 @@ import Login from './pages/Login.jsx';
 import Pagar from './pages/Pagar.jsx';
 import Admin from './pages/Admin.jsx';
 import Users from './pages/Users.jsx';
+import Buys from './pages/Buys.jsx';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/pagar" element={<Pagar />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/buys" element={<Buys />} />
           </Routes>
         </BrowserRouter>
       </UserProvider>

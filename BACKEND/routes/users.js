@@ -5,7 +5,11 @@ const bcrypt = require('bcryptjs');
 // Ruta para el registro de usuarios
 router.post('/register', async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, confirmPassword, firstName, lastName, role } = req.body;
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: 'Las contraseñas no coinciden' });
+    }
 
     // Verificar si el usuario o correo ya existe
     const existingUser = await User.findOne({ username });
@@ -23,7 +27,9 @@ router.post('/register', async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      role: 'client' // Asegurar que solo se registren clientes
+      firstName,
+      lastName,
+      role, // Aquí se asegura de que el campo role está incluido
     });
 
     // Guardar el usuario en la base de datos
@@ -34,13 +40,21 @@ router.post('/register', async (req, res) => {
   }
 });
 
+module.exports = router;
+
 // Ruta para el inicio de sesión
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { emailOrUsername, password } = req.body;
 
-    // Buscar el usuario por su email
-    const user = await User.findOne({ email });
+    // Buscar el usuario por su email o nombre de usuario
+    const user = await User.findOne({ 
+      $or: [
+        { email: emailOrUsername },
+        { username: emailOrUsername }
+      ] 
+    });
+
     if (!user) return res.status(400).json({ message: 'Usuario no encontrado' });
 
     // Comparar la contraseña
@@ -66,7 +80,7 @@ router.get('/users', async (req, res) => {
 // Actualizar un usuario
 router.put('/users/:id', async (req, res) => {
   try {
-    const { username, email, password, role } = req.body;
+    const { username, email, password, role, firstName, lastName } = req.body;
     const updatedUser = {};
 
     if (username) updatedUser.username = username;
@@ -76,6 +90,8 @@ router.put('/users/:id', async (req, res) => {
       updatedUser.password = await bcrypt.hash(password, salt);
     }
     if (role) updatedUser.role = role;
+    if (firstName) updatedUser.firstName = firstName;
+    if (lastName) updatedUser.lastName = lastName;
 
     const user = await User.findByIdAndUpdate(req.params.id, updatedUser, { new: true });
     res.status(200).json({ message: 'Usuario actualizado', user });

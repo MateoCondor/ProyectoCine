@@ -27,19 +27,18 @@ const Navbar = () => {
               <Link className="nav-link mx-3" to="/">Inicio</Link>
             </div>
             <div className='navbarhover'>
-            <Link className="nav-link mx-3" to="/about">Acerca de</Link>
+              <Link className="nav-link mx-3" to="/about">Acerca de</Link>
             </div>
             <div className='navbarhover'>
-            <Link className="nav-link mx-3" to="/cartelera">Cartelera</Link>
+              <Link className="nav-link mx-3" to="/cartelera">Cartelera</Link>
             </div>
-            
             
           </div>
           <div className="d-flex">
             {isAuthenticated ? (
-              <button className="btn btn-outline-danger" onClick={handleLogout}>Cerrar Sesión</button>
+              <button className="btn btn-danger" onClick={handleLogout}>Cerrar Sesión</button>
             ) : (
-              <Link to="/login" className="btn btn-outline-warning">Iniciar Sesión</Link>
+              <Link to="/login" className="btn btn-warning">Iniciar Sesión</Link>
             )}
           </div>
         </div>
