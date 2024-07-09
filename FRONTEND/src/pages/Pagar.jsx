@@ -1,16 +1,14 @@
-// Pagar.js
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Modal, Button, Spinner } from 'react-bootstrap';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext'; // Importa el contexto de autenticación
+import { useAuth } from '../context/AuthContext';
 
 const Pagar = () => {
     const location = useLocation();
-    const { userId, quantity, selectedSeats, total, movie, time } = location.state || {};
-    const { username } = useAuth(); // Obtén el nombre de usuario del contexto de autenticación
+    const { quantity, selectedSeats, total, movie, time } = location.state || {};
+    const { userId } = useAuth();
     const [name, setName] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [expiryDate, setExpiryDate] = useState('');
@@ -25,13 +23,37 @@ const Pagar = () => {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const fetchPaymentInfo = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/api/payments/paymentinfo/${userId}`);
+                if (response.data) {
+                    const { name, cardNumber, expiryDate, cvv, billingAddress, city, postalCode } = response.data;
+                    setName(name);
+                    setCardNumber(cardNumber);
+                    setExpiryDate(expiryDate);
+                    setCvv(cvv);
+                    setBillingAddress(billingAddress);
+                    setCity(city);
+                    setPostalCode(postalCode);
+                }
+            } catch (error) {
+                console.error('Error al obtener la información de pago:', error);
+            }
+        };
+
+        if (userId) {
+            fetchPaymentInfo();
+        }
+    }, [userId]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setShowProcessing(true);
 
         try {
             const response = await axios.post('http://localhost:5000/api/purchases/comprar', {
-                userId: username,
+                userId: userId,
                 movie,
                 quantity,
                 selectedSeats,
@@ -62,6 +84,9 @@ const Pagar = () => {
             setPostalCode('');
 
             console.log(response.data.message);
+            setTimeout(() => {
+                navigate('/cartelera');
+            }, 2000);
         } catch (error) {
             console.error('Error al procesar el pago:', error);
             setShowProcessing(false);
@@ -180,6 +205,7 @@ const Pagar = () => {
                                 <label className="form-check-label" htmlFor="savePaymentInfo">Guardar información de pago</label>
                             </div>
                             <div className="text-center">
+
                                 <button type="submit" className="btn btn-warning btn-block mt-3 w-50">Pagar</button>
                             </div>
                         </form>
@@ -214,4 +240,3 @@ const Pagar = () => {
 };
 
 export default Pagar;
-

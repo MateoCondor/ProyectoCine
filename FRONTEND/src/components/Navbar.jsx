@@ -13,10 +13,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
       <div className="container-fluid">
-        <img src={logo} alt="CineStar Logo" className="navbar-brand" width={40} class="d-inline-block align-text-top" />
-        <Link className="navbar-brand" to="/">CineStar</Link>
+        
+        <Link className="navbar-brand" to="/"><img src={logo} alt="CineStar Logo" className="navbar-brand" width={40} class="d-inline-block align-text-top" />CineStar</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -32,7 +32,12 @@ const Navbar = () => {
             <div className='navbarhover'>
               <Link className="nav-link mx-3" to="/cartelera">Cartelera</Link>
             </div>
-            
+          
+            {isAuthenticated && (
+              <div className='navbarhover'>
+                <Link className="nav-link mx-3" to="/profile">Perfil</Link>
+              </div>
+            )}
           </div>
           <div className="d-flex">
             {isAuthenticated ? (

@@ -29,10 +29,12 @@ connection.once('open', async () => {
 const usersRouter = require('./routes/users');
 const moviesRouter = require('./routes/movies');
 const purchasesRouter = require('./routes/purchases'); // Nueva ruta
+const paymentsRouter = require('./routes/payments'); // Nueva ruta
 
 app.use('/api/users', usersRouter);
 app.use('/api/movies', moviesRouter);
 app.use('/api/purchases', purchasesRouter); // Nueva ruta
+app.use('/api/payments', paymentsRouter); // Nueva ruta
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

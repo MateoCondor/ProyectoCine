@@ -1,4 +1,3 @@
-// AuthContext.js
 
 import React, { createContext, useState, useContext } from 'react';
 
@@ -13,17 +12,17 @@ export const AuthProvider = ({ children }) => {
     return localStorage.getItem('userRole') || 'client';
   });
 
-  const [username, setUsername] = useState(() => {
-    return localStorage.getItem('username') || '';
+  const [userId, setUserId] = useState(() => {
+    return localStorage.getItem('userId') || '';
   });
 
-  const login = (role, username) => {
+  const login = (role, userId) => {
     setIsAuthenticated(true);
     localStorage.setItem('isAuthenticated', 'true');
     setUserRole(role);
     localStorage.setItem('userRole', role);
-    setUsername(username);
-    localStorage.setItem('username', username);
+    setUserId(userId);
+    localStorage.setItem('userId', userId);
   };
 
   const logout = () => {
@@ -31,12 +30,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('isAuthenticated', 'false');
     setUserRole('client');
     localStorage.removeItem('userRole');
-    setUsername('');
-    localStorage.removeItem('username');
+    setUserId('');
+    localStorage.removeItem('userId');
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userRole, username, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, userRole, userId, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

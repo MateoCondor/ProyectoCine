@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-import NavbarAdmin from '../components/NavbarAdmin';
+import NavbarClient from '../components/NavbarClient';
 
-const Admin = () => {
+const Profile = () => {
     const [user, setUser] = useState([]);
     const { userId } = useAuth();
 
@@ -21,14 +21,14 @@ const Admin = () => {
 
     return (
         <div>
-            <NavbarAdmin />
+            <NavbarClient />
             <div className="container" style={{ marginTop: '30px' }}>
                 <h1>Hola, bienvenido {user.firstName}</h1>   
                 
             </div>
         </div>
     );
-        
 }
 
-export default Admin
+export default Profile;
+

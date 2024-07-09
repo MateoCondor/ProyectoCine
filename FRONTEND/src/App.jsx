@@ -13,6 +13,10 @@ import Pagar from './pages/Pagar.jsx';
 import Admin from './pages/Admin.jsx';
 import Users from './pages/Users.jsx';
 import Buys from './pages/Buys.jsx';
+import Profile from './pages/Profile.jsx';
+import BuysClient from './pages/BuysClient.jsx';
+import PersonalInfo from './pages/PersonalInfo.jsx';
+import PayInfo from './pages/PayInfo.jsx';
 
 function App() {
   return (
@@ -30,6 +34,10 @@ function App() {
             <Route path="/admin" element={<Admin />} />
             <Route path="/users" element={<Users />} />
             <Route path="/buys" element={<Buys />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/buysclient" element={<BuysClient />} />
+            <Route path="/personalinfo" element={<PersonalInfo />} />
+            <Route path="/payinfo" element={<PayInfo />} />
           </Routes>
         </BrowserRouter>
       </UserProvider>

@@ -69,7 +69,7 @@ const Users = () => {
   return (
     <div>
       <NavbarAdmin />
-      <div className="container" style={{ marginTop: '70px' }}>
+      <div className="container" style={{ marginTop: '25px' }}>
         <div className="row justify-content-center">
           <div className="col-md-8">
             <h1 className="mb-4 text-center">Gestión de Usuarios</h1>
@@ -168,7 +168,7 @@ const Users = () => {
                 </form>
               </div>
             </div>
-            <ul className="list-group">
+            <ul className="list-group mb-4">
               {users.map((user) => (
                 <li
                   key={user._id}

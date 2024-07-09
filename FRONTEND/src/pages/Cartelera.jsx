@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import { useAuth } from '../context/AuthContext'; // Importa el contexto de autenticación
 import { useNavigate } from 'react-router-dom'; // Importa el hook de navegación
 
+
 const Cartelera = () => {
   const [movies, setMovies] = useState([]);
   const { isAuthenticated } = useAuth(); // Obtén el estado de autenticación
@@ -41,7 +42,7 @@ const Cartelera = () => {
   return (
     <div>
       <Navbar />
-      <div className="container" style={{ marginTop: '70px' }}>
+      <div className="container" style={{ marginTop: '30px' }}>
         <h1>Películas de Estreno</h1>
         <div className="row">
           {Array.isArray(movies) && movies.length > 0 ? (
@@ -73,6 +74,7 @@ const Cartelera = () => {
           )}
         </div>
       </div>
+      
     </div>
   );
 };

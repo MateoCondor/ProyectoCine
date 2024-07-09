@@ -20,14 +20,11 @@ router.post('/comprar', async (req, res) => {
 
         // Si el usuario quiere guardar la información de pago
         if (savePaymentInfo) {
-            const existingPaymentInfo = await PaymentInfo.findOne({ userId });
-            if (existingPaymentInfo) {
-                // Actualizar la información de pago existente
-                await existingPaymentInfo.update(paymentInfo);
-            } else {
-                // Crear nueva información de pago
-                await PaymentInfo.create({ userId, ...paymentInfo });
-            }
+            await PaymentInfo.findOneAndUpdate(
+                { userId },
+                { $set: paymentInfo },
+                { upsert: true, new: true }  // upsert: crea si no existe, new: devuelve el documento actualizado
+            );
         }
 
         res.status(201).json({ message: 'Compra registrada con éxito', purchase });
@@ -48,7 +45,6 @@ router.get('/compras', async (req, res) => {
     }
 });
 
-
 // Ruta para obtener las compras de un usuario
 router.get('/compras/:userId', async (req, res) => {
     try {
@@ -61,6 +57,4 @@ router.get('/compras/:userId', async (req, res) => {
     }
 });
 
-
 module.exports = router;
-

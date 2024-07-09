@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import NavbarAdmin from '../components/NavbarAdmin';
+import NavbarClient from '../components/NavbarClient';
+import { useAuth } from '../context/AuthContext';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 
-const Buys = () => {
+const BuysClient = () => {
     const [purchases, setPurchases] = useState([]);
+    const { userId } = useAuth();
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/purchases/compras')
-            .then(response => {
-                setPurchases(response.data);
-            })
-            .catch(error => {
-                console.error('Error al obtener todas las compras:', error);
-            });
-    }, []);
+        if (userId) {
+            axios.get(`http://localhost:5000/api/purchases/compras/${userId}`)
+                .then(response => {
+                    setPurchases(response.data);
+                })
+                .catch(error => {
+                    console.error('Error al obtener las compras:', error);
+                });
+        }
+    }, [userId]);
 
     return (
         <div>
-            <NavbarAdmin />
+            <NavbarClient />
             <Container style={{ marginTop: '30px' }}>
-                <h1 className="text-center mb-4">Compras</h1>
+                <h1 className="text-center">Compras</h1>
                 <Row>
                     {purchases.map(purchase => (
                         <Col md={6} lg={4} key={purchase._id} className="mb-4">
@@ -43,4 +47,4 @@ const Buys = () => {
     );
 }
 
-export default Buys;
+export default BuysClient;
