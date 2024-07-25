@@ -11,15 +11,15 @@ app.use(express.json());
 app.use('/api', usersRouter);
 
 beforeAll(async () => {
-  await mongoose.connect("mongodb://localhost:27017/Test", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
+    await mongoose.connect("mongodb://localhost:27017/Test", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
 });
 
 afterAll(async () => {
-  await mongoose.connection.dropDatabase();
-  await mongoose.disconnect();
+    await mongoose.connection.dropDatabase();
+    await mongoose.disconnect();
 });
 
 describe('XSS Protection', () => {
