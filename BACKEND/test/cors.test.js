@@ -22,7 +22,7 @@ afterAll(async () => {
     await mongoose.disconnect();
 });
 
-describe("Users API", () => {
+describe("API de Usuarios", () => {
     // CORS permitido
     test("Debe permitir solicitudes de http://localhost:5173", async () => {
         const response = await request(app)

@@ -37,7 +37,7 @@ afterAll(async () => {
     await mongoose.disconnect();
 });
 
-describe("Input Validation", () => {
+describe("Validación de entradas", () => {
 
     // Test de validación de contraseñas
     test("Debe retornar 400 si las contraseñas no coinciden", async () => {

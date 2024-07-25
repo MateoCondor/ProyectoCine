@@ -22,8 +22,8 @@ afterAll(async () => {
     await mongoose.disconnect();
 });
 
-describe("XSS Protection", () => {
-    test("No se deben permitir scripts en el nombre de usuario", async () => {
+describe("Protección XSS", () => {
+    test("No se deben permitir scripts en el username", async () => {
         const response = await request(app).post("/api/register").send({
                 username: '<script>alert("XSS")</script>',
                 email: "xss@example.com",

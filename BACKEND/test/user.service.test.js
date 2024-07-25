@@ -24,7 +24,7 @@ afterAll(async () => {
     await mongoose.disconnect();
 });
 
-describe("Users API", () => {
+describe("API de Usuarios", () => {
     let testUserId;
 
     // Test de registro de usuario
