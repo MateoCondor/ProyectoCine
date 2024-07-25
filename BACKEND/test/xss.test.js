@@ -24,9 +24,7 @@ afterAll(async () => {
 
 describe("XSS Protection", () => {
     test("No se deben permitir scripts en el nombre de usuario", async () => {
-        const response = await request(app)
-            .post("/api/register")
-            .send({
+        const response = await request(app).post("/api/register").send({
                 username: '<script>alert("XSS")</script>',
                 email: "xss@example.com",
                 password: "password123",
@@ -35,16 +33,13 @@ describe("XSS Protection", () => {
                 lastName: "Test",
                 role: "client"
             });
-
         expect(response.statusCode).toBe(201);
         expect(response.body.user.username).not.toBe('<script>alert("XSS")</script>');
         expect(response.body.user.username).toBe('&lt;script&gt;alert("XSS")&lt;/script&gt;');
     });
 
     test("No se deben permitir scripts en el email", async () => {
-        const response = await request(app)
-            .post("/api/register")
-            .send({
+        const response = await request(app).post("/api/register").send({
                 username: "xsstest",
                 email: '<script>alert("XSS")</script>@example.com',
                 password: "password123",
@@ -53,16 +48,13 @@ describe("XSS Protection", () => {
                 lastName: "Test",
                 role: "client"
             });
-
         expect(response.statusCode).toBe(201);
         expect(response.body.user.email).not.toBe('<script>alert("XSS")</script>@example.com');
         expect(response.body.user.email).toBe('&lt;script&gt;alert("XSS")&lt;/script&gt;@example.com');
     });
 
     test("No se deben permitir scripts en el nombre", async () => {
-        const response = await request(app)
-            .post("/api/register")
-            .send({
+        const response = await request(app).post("/api/register").send({
                 username: "xsstest",
                 email: "xss@example.com",
                 password: "password",
@@ -77,9 +69,7 @@ describe("XSS Protection", () => {
     });
 
     test("No se deben permitir scripts en el apellido", async () => {
-        const response = await request(app)
-            .post("/api/register")
-            .send({
+        const response = await request(app).post("/api/register").send({
                 username: "xsstest",
                 email: "xss@example.com",
                 password: "password",
